@@ -1,107 +1,107 @@
 '''
-Proyecto final del curso de python
-El objetivo consiste en desarrollar un programa que permita llevar un registro de
-películas aplicando conceptos de programación orientada a objetos.
-El funcionamiento esperado es el siguiente:
-• Al ejecutar el programa se solicita ingresar el nombre del catálogo de películas:
-• Si el catálogo de películas no existe se creará uno nuevo. Este catálogo se va a
-guardar en un archivo txt donde posteriormente se guardarán las películas. Si el
-catálogo existe se podrá seguir modificando el archivo.
-• Se debe mostrar un menú de opciones, que permita realizar las siguientes
-operaciones:
-1. Agregar Película
-2. Listar Películas
-3. Eliminar catálogo películas
-4. Salir
+=============================================================================
+MÓDULO DE DATOS: MODELOS (📘 Azul: Datos)
+=============================================================================
+PROPÓSITO:
+----------
+Este archivo contiene los contenedores de información de mi catálogo.
+Aquí definimos "qué" es una película y qué datos la componen.
 
-Funcionamiento de las opciones:
-• Agregar Película: se va a solicitar el nombre de la película y esta película se va a
-guardar en el archivo txt.
-• Listar Peliculas: va a mostrar todas las peliculas del catalogo y guardadas en el archivo
-txt.
-• Eliminar catálogo: elimina el archivo txt que corresponde al catálogo de películas.
-• Salir: debe finalizar el programa mostrando un mensaje al usuario.
-Implementación POO:
-El programa debe implementar programación orientada a objetos.
-Se solicita:
-• Clase Pelicula.
-* Uno de sus atributos debe ser privado.
-• Clase CatalogoPelicula.
-* atributo nombre
-* atributo ruta_archivo
-* métodos: agregar, listar, eliminar
+CONCEPTO DE PROGRAMACIÓN:
+-------------------------
+- CLASES Y OBJETOS: Plantillas para crear entidades.
+- ENCAPSULAMIENTO: Proteger datos sensibles (como el nombre).
+=============================================================================
 '''
-class Pelicula:
-    def __init__(self, nombrepelicula, genero, duracion, actor_principal, año_lanzamiento):
+
+class Pelicula: # 💜 Clase: La Receta base
+    """
+    Aquí definimos la 'Receta' de las películas.
+    Es la estructura estandarizada que debe tener cada registro en nuestro catálogo.
+    """
+    
+    def __init__(self, nombrepelicula, genero, duracion, actor_principal, año_lanzamiento): # 💚 Función
         """
-        Constructor de la clase Pelicula. Se ejecuta al crear una instancia de Pelicula.
-        Ingredientes: nombrepelicula (str), genero (str), duracion (int), actor_principal (str), año_lanzamiento (int).
-        Tarea: Inicializar los atributos de la película, validando que duracion y año_lanzamiento sean enteros. Si no lo son, se asigna un valor por defecto de 0. 
-        El nombre de la película se almacena en un atributo privado para proteger su acceso directo.
+        Constructor de la clase Pelicula. Se ejecuta al crear una nueva película.
+        
+        Verbo: Inicializar datos de la película.
+        Ingredientes: 
+            - nombrepelicula (str): Título de la peli.
+            - genero (str): Categoría.
+            - duracion (int/str): Tiempo en minutos.
+            - actor_principal (str): Protagonista.
+            - año_lanzamiento (int/str): Año de estreno.
+        Tarea: 
+            Asignar los ingredientes a los atributos de la película. 
+            Se incluye validación (try/except) para asegurar que la duración y el año 
+            sean números enteros. Si el usuario escribe letras ahí, se pone 0 por defecto.
         """
-        # 1. Atributos directos
+        # 1. Encapsulamiento del nombre (Doble guion bajo lo hace privado)
         self.__nombre = nombrepelicula
+        
+        # 2. Atributos públicos directos
         self.genero = genero
         self.actor_principal = actor_principal
         
-        # 2. Validación y Encapsulamiento de Duración
+        # 3. Validación de Duración (Intentar convertir a entero)
         try:
             self.__duracion = int(duracion)
         except ValueError:
-            self.__duracion = 0
+            self.__duracion = 0 # Valor por defecto si falla
             
-        # 3. Validación y Encapsulamiento de Año
+        # 4. Validación de Año (Intentar convertir a entero)
         try:
             self.__año_lanzamiento = int(año_lanzamiento)
         except ValueError:
-            self.__año_lanzamiento = 0
+            self.__año_lanzamiento = 0 # Valor por defecto si falla
 
-    def __str__(self):
+    def __str__(self): # 💚 Función
         """
-        Método especial para representar la película como una cadena de texto. 
+        Método especial de Python para representar el objeto como texto.
+        
         Verbo: Representar película como texto.
-        Ingrediente: Ninguno (usa los atributos de la instancia).  
-        Tarea: Retornar una cadena con toda la información de la película formateada.
-        Esto facilita mostrar la información de la película en pantalla o al guardarla en un archivo.
+        Ingrediente: Ninguno (usa los propios atributos del objeto mediante 'self').
+        Tarea: 
+            Retornar una cadena (string) formateada con toda la información.
+            Esto es clave porque es exactamente lo que se escribirá en el archivo .txt.
         """
-        # Usamos los atributos privados que ya están validados
         return (f"Película: {self.__nombre} | Género: {self.genero} | "
                 f"Duración: {self.__duracion} min | Actor: {self.actor_principal} | "
                 f"Año: {self.__año_lanzamiento}")
 
-    # Decoradores para el nombre (Encapsulamiento)
+    # --- ZONA DE DECORADORES (ENCAPSULAMIENTO) ---
+
     @property
-    def nombre(self):
+    def nombre(self): # 💚 Función
         """
-        Método getter para el nombre de la película. Permite acceder al nombre de forma controlada.
+        Método 'getter' (Obtenedor). Permite leer el atributo privado.
+        
         Verbo: Obtener nombre de la película.
-        Ingrediente: Ninguno (retorna el nombre almacenado).
-        Tarea: Retornar el nombre de la película almacenado en el atributo privado.
-        Esto permite proteger el acceso directo al atributo y controlar cómo se obtiene el nombre.
+        Ingrediente: Ninguno.
+        Tarea: Retornar el valor oculto en self.__nombre de forma segura.
         """
         return self.__nombre
 
     @nombre.setter
-    def nombre(self, nuevo_nombre):
+    def nombre(self, nuevo_nombre): # 💚 Función
         """
-        Método setter para el nombre de la película. Permite modificar el nombre de forma controlada.
+        Método 'setter' (Configurador). Permite modificar el atributo privado pasando filtros.
+        
         Verbo: Modificar nombre de la película.
-        Ingrediente: nuevo_nombre (str) que se desea asignar.
-        Tarea: Validar el nuevo nombre (por ejemplo, asegurarse de que no esté vacío) y asignarlo al atributo privado.
-        Esto permite proteger el acceso directo al atributo y controlar cómo se modifica el nombre.
+        Ingrediente: nuevo_nombre (str) - El nuevo título a asignar.
+        Tarea: 
+            1. Validar que sea un texto (str).
+            2. Validar que no esté vacío.
+            3. Guardarlo limpio de espacios innecesarios (.strip()).
         """
-       # 1. Verificamos que sea un string
-       # utilizamos isinstance para asegurarnos de que el nuevo nombre es una cadena de texto. Si no lo es, lanzamos un error.
-        if not isinstance(nuevo_nombre, str):
-            raise ValueError("El nombre debe ser contener solo letras.")
+        # Validar que el ingrediente sea del tipo 'texto'
+        if not isinstance(nuevo_nombre, str):  
+            raise ValueError("El nombre debe ser una cadena de texto (puede incluir números, pero debe ser texto).")
     
-        # 2. Verificamos que no esté vacío
-        # utilizamos .strip() para eliminar espacios en blanco al inicio y al final del nuevo nombre. Si después de esto el nombre está vacío, lanzamos un error. 
+        # Validar que no esté vacío después de quitarle los espacios
         if not nuevo_nombre.strip():
-            raise ValueError("El nombre de la película no puede estar vacío, ni tener espacios en blanco al inicio o al final.")
+            raise ValueError("El nombre no puede estar vacío ni tener solo espacios.")
     
-        # 3. Si todo está bien, asignamos (podemos guardar ya "limpio" con strip)
+        # Si pasa las pruebas, actualizamos el atributo privado
         self.__nombre = nuevo_nombre.strip()
-
-    # Opcional: Podrías agregar @property para duracion y año_lanzamiento si quisieras
-    # leerlos individualmente desde app.py
+        
