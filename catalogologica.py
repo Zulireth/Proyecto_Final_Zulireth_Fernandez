@@ -92,6 +92,28 @@ class CatalogoPelicula: # 💜 Clase
                 print("------------------------------------------\n")
         except FileNotFoundError:
             print("El catálogo aún no existe. Agrega una película primero.")
+            
+    def modificar(self, pelicula_vieja, pelicula_nueva):
+        """
+        Función para modificar una película existente en el catálogo. Se ejecuta cuando el usuario elige la opción de modificar película.
+        Verbo: Modificar película.
+        Ingrediente: Dos objetos de la clase Pelicula (la película vieja que se quiere modificar y la nueva con los cambios).
+        Tarea: Leer el archivo, reemplazar la línea que coincide con la película vieja por la información de la película nueva, y guardar los cambios.
+        Si el archivo no existe, se muestra un mensaje informativo.
+        """
+        try:
+            with open(self.ruta_archivo, "r", encoding="utf-8") as archivo:
+                lineas = archivo.readlines()
+
+            with open(self.ruta_archivo, "w", encoding="utf-8") as archivo:
+                for linea in lineas:
+                    if linea.strip() == str(pelicula_vieja):
+                        archivo.write(str(pelicula_nueva) + "\n")
+                    else:
+                        archivo.write(linea)
+            print(f"Película '{pelicula_vieja.nombre}' modificada a '{pelicula_nueva.nombre}' con éxito.")
+        except FileNotFoundError:
+            print("El catálogo aún no existe. Agrega una película primero.")
 
     def eliminar(self):
         """
