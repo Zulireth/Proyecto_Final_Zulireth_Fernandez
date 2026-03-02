@@ -23,7 +23,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
     para almacenar los datos de forma permanente.
     """
     
-    def __init__(self, nombre): # 💚 Función
+    def __init__(self, nombre): # 💚 Función #self es una convención utilizada que permite acceder o modificar variables vinculadas al objeto
         """
         El 'Constructor'. Se ejecuta al preparar el cuaderno.
         
@@ -34,7 +34,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
             Si le pasamos 'Terror', creará la ruta 'Terror.txt'.
         """
         self.nombre = nombre
-        self.ruta_archivo = f"{nombre}.txt"
+        self.ruta_archivo = f"{nombre}.txt" # Construye la ruta del archivo usando el nombre del catálogo. Si el usuario ingresa 'MiCatalogo', la ruta será 'MiCatalogo.txt'.
 
     def agregar(self, pelicula): # 💚 Función
         """
@@ -48,6 +48,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
             3. Mostrar un mensaje de éxito.
         """
         # 'a' (append): Si el archivo no existe, lo crea. Si existe, no borra lo anterior.
+        # with es una forma de manejar archivos que asegura que se cierren correctamente después de usarlos, incluso si ocurre un error. Es como decir "Abre este cuaderno, haz lo que necesites, y luego ciérralo automáticamente".
         with open(self.ruta_archivo, "a", encoding="utf-8") as archivo:
             # str(pelicula) invoca automáticamente a __str__ en modelos.py
             archivo.write(str(pelicula) + "\n")
@@ -65,7 +66,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
             2. Imprimir línea por línea.
             3. Manejar el error (except) si el cuaderno aún no existe.
         """
-        try:
+        try: # Intentamos abrir el archivo para leerlo. Si no existe, se lanza una excepción (FileNotFoundError) que manejamos en el bloque except.
             # 'r' (read): Solo lectura. Si no existe, lanza FileNotFoundError.
             with open(self.ruta_archivo, "r", encoding="utf-8") as archivo:
                 print(f"\n--- Catálogo de Películas: {self.nombre} ---")
@@ -85,7 +86,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
             
     def modificar(self, nombre_pelicula_buscar, pelicula_nueva): 
         # Ingredientes: El nombre de la peli a buscar (texto) y la película nueva (Objeto)
-        try:
+        try: # Intentamos abrir el archivo para leerlo. Si no existe, se lanza una excepción (FileNotFoundError) que manejamos en el bloque except.
             with open(self.ruta_archivo, "r", encoding="utf-8") as archivo:
                 lineas = archivo.readlines()
 
@@ -94,7 +95,7 @@ class CatalogoPelicula: # 💜 Clase: El Cuaderno de Recetas
                 for linea in lineas:
                     # Buscamos solo si el nombre coincide en la línea de texto
                     if f"Película: {nombre_pelicula_buscar}" in linea:
-                        archivo.write(str(pelicula_nueva) + "\n")
+                        archivo.write(str(pelicula_nueva) + "\n") # Escribimos la nueva película en lugar de la antigua
                         modificado = True
                     else:
                         archivo.write(linea)
