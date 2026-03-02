@@ -104,4 +104,3 @@ class Pelicula: # 💜 Clase: La Receta base
     
         # Si pasa las pruebas, actualizamos el atributo privado
         self.__nombre = nuevo_nombre.strip()
-        
