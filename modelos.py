@@ -43,15 +43,15 @@ class Pelicula: # 💜 Clase: La Receta base
         self.genero = genero
         self.actor_principal = actor_principal
         
-        # 3. Validación de Duración (Intentar convertir a entero)
+        # 3. Validación de Duración (Intentar convertir a entero) 
         try:
-            self.__duracion = int(duracion)
+            self.__duracion = int(duracion) # int permite convertir un texto a número. Si el usuario escribe algo que no es un número, se lanza una excepción (ValueError).
         except ValueError:
             self.__duracion = 0 # Valor por defecto si falla
             
         # 4. Validación de Año (Intentar convertir a entero)
         try:
-            self.__año_lanzamiento = int(año_lanzamiento)
+            self.__año_lanzamiento = int(año_lanzamiento) # int permite convertir un texto a número. Si el usuario escribe algo que no es un número, se lanza una excepción (ValueError).
         except ValueError:
             self.__año_lanzamiento = 0 # Valor por defecto si falla
 
@@ -95,11 +95,11 @@ class Pelicula: # 💜 Clase: La Receta base
             3. Guardarlo limpio de espacios innecesarios (.strip()).
         """
         # Validar que el ingrediente sea del tipo 'texto'
-        if not isinstance(nuevo_nombre, str):  
+        if not isinstance(nuevo_nombre, str):  # str permite verificar si el nuevo_nombre es una cadena de texto. Si no lo es, se lanza una excepción (ValueError).
             raise ValueError("El nombre debe ser una cadena de texto (puede incluir números, pero debe ser texto).")
     
         # Validar que no esté vacío después de quitarle los espacios
-        if not nuevo_nombre.strip():
+        if not nuevo_nombre.strip(): # strip() es un método que elimina los espacios al inicio y al final del texto. Si el resultado es una cadena vacía, significa que el usuario ingresó solo espacios o nada.
             raise ValueError("El nombre no puede estar vacío ni tener solo espacios.")
     
         # Si pasa las pruebas, actualizamos el atributo privado
