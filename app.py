@@ -96,9 +96,27 @@ def ejecutar_app(): # 💚 Función
                 input("\nPresiona Enter para volver al menú...") 
             
             case '3':
-                # Verbo: Solicitar modificación del catálogo
+                # Verbo: Solicitar modificación de una película
                 limpiar_pantalla()
-                catalogo.modificar()
+                print("--- ✏️ Modificar Película ---")
+                
+                print("1. Ingresa el nombre EXACTO de la película que quieres cambiar:")
+                # Aquí solo pedimos y guardamos el texto del nombre
+                nombre_v = input("Nombre actual: ").strip()
+                
+                print("\n2. Ingresa los NUEVOS datos para esta película:")
+                nombre_n = input("Nuevo nombre: ").strip()
+                genero_n = input("Nuevo género: ").strip()
+                duracion_n = input("Nueva duración: ").strip()
+                actor_n = input("Nuevo actor principal: ").strip()
+                año_n = input("Nuevo año: ").strip()
+                
+                # Preparamos el único Ingrediente complejo (la película nueva)
+                pelicula_nueva = Pelicula(nombre_n, genero_n, duracion_n, actor_n, año_n)
+                
+                # ¡Ahora sí! Llamamos a la función pasándole el texto (nombre_v) y el objeto nuevo
+                catalogo.modificar(nombre_v, pelicula_nueva)
+                
                 input("\nPresiona Enter para volver al menú...")
 
             case '4':
@@ -120,7 +138,7 @@ def ejecutar_app(): # 💚 Función
                 input("\nPresiona Enter para intentarlo de nuevo...")
 
 # --- PUNTO DE ENTRADA DEL SCRIPT ---
-# Si este archivo se ejecuta directamente (y no es importado por otro), arranca la app.
+# Si este archivo se ejecuta directamente (y no es importado por otro), arranca la app. Esto me servira para un futuro proyecto Web con un framework.
 if __name__ == "__main__":
     ejecutar_app()
     # Una vez que el bucle 'while' se rompe con un 'break', el código continúa aquí.
