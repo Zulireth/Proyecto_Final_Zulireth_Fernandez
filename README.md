@@ -1,4 +1,6 @@
-# 🎬 Proyecto: Catálogo de Películas (POO en Python)
+# 🎬 Proyecto Final: Gestión de Catálogo de Películas  (POO en Python)
+**Autora:** Zulireth Fernández  
+**Utilice una Metodología de aprendizaje basada en colores y anañogía con la cocina:**
 
 Este proyecto es una aplicación de consola desarrollada en Python que permite gestionar un catálogo de películas. Fue creado como proyecto final para aplicar conceptos de Programación Orientada a Objetos (POO), manejo de archivos y modularización.
 
@@ -17,7 +19,7 @@ El código de este proyecto está documentado utilizando un sistema de aprendiza
 
 El proyecto está dividido en tres módulos principales para garantizar la separación de responsabilidades:
 
-1.  **`modelos.py`**: Define la clase `Pelicula`, encargada de validar y encapsular los datos individuales de cada cinta (nombre, género, duración, etc.).
+1.  **`modelos.py`**: Define la clase `Pelicula`, encargada de validar y encapsular los datos individuales de cada película (nombre, género, duración, etc.).
 2.  **`catalogologica.py`**: Define la clase `CatalogoPelicula`, encargada de gestionar el archivo de texto (`.txt`) donde se guardan las películas (agregar, listar, eliminar, modificar).
 3.  **`app.py`**: El punto de entrada del programa. Contiene el bucle principal (`while True`), el menú interactivo basado en `match-case` y la interacción directa con el usuario.
 
