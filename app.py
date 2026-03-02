@@ -1,99 +1,128 @@
 '''
 =============================================================================
-MÓDULO DE CONTROL PRINCIPAL: APP.PY (con Match-Case)
+MÓDULO DE CONTROL PRINCIPAL: APP.PY (📒 Amarillo: Control)
 =============================================================================
-Este es el director de orquesta de nuestro programa.
-
 PROPÓSITO:
 ----------
-- Gestionar la interacción con el usuario.
-- Mostrar el menú de opciones usando una estructura match-case.
-- Decidir qué funciones de otros módulos llamar según la elección del usuario.
+Este es el director de orquesta de nuestro programa.
+Se encarga de interactuar con el usuario, mostrar el menú gráfico en 
+consola y decidir qué módulos llamar.
+
+CONCEPTO DE PROGRAMACIÓN:
+-------------------------
+- PUNTO DE ENTRADA: Es el archivo principal que se ejecuta.
+- BUCLE INFINITO (WHILE): Mantiene el programa vivo hasta que el usuario sale.
+- MATCH-CASE: Estructura moderna para tomar decisiones de menú.
 =============================================================================
 '''
 
-# 📒 app.py (Amarillo: Control)
-
-# Importamos las librerías necesarias
+# 1. Importamos librerías nativas de Python
 import os
-import platform # Usaremos esta para detectar el sistema operativo. Esta es una librería estándar de Python que puede decirnos información 
-# sobre el sistema en el que se ejecuta el código, como su nombre ("Windows", "Linux", "Darwin" para macOS).
+import platform 
 
-# Importamos nuestras clases
-from modelos import Pelicula
-from catalogologica import CatalogoPelicula
+# 2. Importamos nuestras clases de los otros módulos (Nuestras "Recetas")
+from modelos import Pelicula               # 📘 Datos
+from catalogologica import CatalogoPelicula # 📗 Acción
 
-def limpiar_pantalla():
+def limpiar_pantalla(): # 💚 Función
     """
-    Función para limpiar la pantalla de la terminal.
-    Me pareció interesante agregar esta función para que detecte en qué sistema operativo se está ejecutando el programa y use el comando correcto.
+    Herramienta visual para que la consola no se llene de texto.
+    
     Verbo: Limpiar pantalla.
-    Detecta el sistema operativo y usa el comando correcto.
+    Ingrediente: Ninguno.
+    Tarea: 
+        1. Detectar si el sistema es Windows, Mac o Linux mediante 'platform'.
+        2. Enviar el comando adecuado ('cls' o 'clear') a la consola.
     """
-    # Si el sistema es Windows, usa 'cls'
     if platform.system() == "Windows":
         os.system("cls")
-    # Si es macOS o Linux, usa 'clear'
     else:
         os.system("clear")
 
-def ejecutar_app():
+def ejecutar_app(): # 💚 Función
     """
-    Función principal que ejecuta el flujo de la aplicación.
+    El ciclo de vida principal de la aplicación.
+    
+    Verbo: Ejecutar aplicación.
+    Ingrediente: Ninguno.
+    Tarea: 
+        1. Solicitar el nombre del catálogo inicial.
+        2. Iniciar el bucle 'while True' para mostrar el menú.
+        3. Usar 'match-case' para dirigir al usuario a la acción correcta.
     """
-    nombre_catalogo = input("Ingresa el nombre del catálogo de películas: ")
+    limpiar_pantalla()
+    
+    # Se añade .strip() como mejora para evitar errores si el usuario presiona espacio por accidente.
+    nombre_catalogo = input("Ingresa el nombre del catálogo de películas: ").strip()
     catalogo = CatalogoPelicula(nombre_catalogo)
 
-    while True:
-        print("\n--- MENÚ ---")
+    while True: # Bucle infinito (se rompe con 'break')
+        limpiar_pantalla() 
+        print(f"--- 🎬 CATÁLOGO ACTIVO: {catalogo.nombre.upper()} ---")
+        print("\n--- MENÚ PRINCIPAL ---")
         print("1. Agregar Película")
         print("2. Listar Películas")
-        print("3. Eliminar Catálogo de Películas")
-        print("4. Salir")
+        print("3. Modificar Películas")
+        print("4. Eliminar Catálogo de Películas")
+        print("5. Salir")
         
-        opcion = input("Elige una opción (1-4): ")
+        opcion = input("Elige una opción (1-5): ").strip()
 
-        # Usamos match-case para manejar la opción del usuario
-        # Es una alternativa más limpia a los if/elif/else
+        # MATCH-CASE: El inspector de tráfico que decide qué ruta tomar
         match opcion:
+            
             case '1':
-                # Verbo: Solicitar datos de la película
-                print("\n--- Agregar Nueva Película ---")
-                nombre = input("Nombre de la película: ")
-                genero = input("Género: ")
-                duracion = input("Duración (min): ")
-                actor = input("Actor principal: ")
-                año = input("Año de lanzamiento: ")
+                # Verbo: Solicitar datos y agregar
+                limpiar_pantalla()
+                print("--- 🍿 Agregar Nueva Película ---")
+                # Usamos .strip() en los inputs de texto por limpieza de datos
+                nombre = input("Nombre de la película: ").strip()
+                genero = input("Género: ").strip()
+                duracion = input("Duración (min): ").strip()
+                actor = input("Actor principal: ").strip()
+                año = input("Año de lanzamiento: ").strip()
                 
+                # Creamos el ingrediente (Objeto Pelicula)
                 pelicula_nueva = Pelicula(nombre, genero, duracion, actor, año)
+                # Lo mandamos a la función agregar de nuestro catálogo
                 catalogo.agregar(pelicula_nueva)
+                
+                input("\nPresiona Enter para volver al menú...") 
 
             case '2':
-                # Verbo: Listar películas
+                # Verbo: Solicitar la lista de películas
+                limpiar_pantalla()
                 catalogo.listar()
-
+                input("\nPresiona Enter para volver al menú...") 
+            
             case '3':
-                # Verbo: Eliminar catálogo
-                catalogo.eliminar()
-                print("Saliendo del programa, ya que el catálogo fue eliminado.")
-                break # Rompemos el bucle para terminar
+                # Verbo: Solicitar modificación del catálogo
+                limpiar_pantalla()
+                catalogo.modificar()
+                input("\nPresiona Enter para volver al menú...")
 
             case '4':
-                # Verbo: Salir del programa
-                print("\n¡Hasta luego! Gracias por usar el catálogo de películas.")
-                break # Rompemos el bucle para terminar
-            
-            case _: # El guion bajo (_) actúa como el "else"
-                # Se ejecuta si la opción no coincide con ningún case anterior
-                print("\nOpción no válida. Por favor, elige una opción del 1 al 4.")
-    
-    # Este return es opcional, pero indica que la función del bucle ha terminado.
-    return
+                # Verbo: Solicitar eliminación del archivo
+                limpiar_pantalla()
+                catalogo.eliminar()
+                input("\nPresiona Enter para continuar...")
+                print("Saliendo del programa, ya que el catálogo fue eliminado.")
+                break # Rompe el bucle porque ya no hay catálogo
 
-# Punto de entrada del programa
-# Agregar el código dentro de este if asegura que el archivo se pueda reutilizar y que sea modular, es decir, que otras partes del programa puedan
-# importar funciones de este archivo sin ejecutar el código principal.
+            case '5':
+                # Verbo: Salir voluntariamente
+                limpiar_pantalla()
+                print("\n¡Hasta luego! Gracias por usar el catálogo de películas. 🍿")
+                break # Rompe el bucle para terminar
+            
+            case _: # Comodín (Else): Si ingresa '5', 'Hola', etc.
+                print("\n❌ Opción no válida. Por favor, elige una opción del 1 al 5.")
+                input("\nPresiona Enter para intentarlo de nuevo...")
+
+# --- PUNTO DE ENTRADA DEL SCRIPT ---
+# Si este archivo se ejecuta directamente (y no es importado por otro), arranca la app.
 if __name__ == "__main__":
     ejecutar_app()
-    limpiar_pantalla() # Limpiamos la pantalla al finalizar el programa
-    print("\nPrograma finalizado.")
+    # Una vez que el bucle 'while' se rompe con un 'break', el código continúa aquí.
+    limpiar_pantalla() 
+    print("Programa finalizado correctamente.\n")
